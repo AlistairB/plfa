@@ -67,7 +67,7 @@ data Bin : Set where
   _I : Bin → Bin
 
 inc : Bin → Bin
-inc ⟨⟩ = ⟨⟩
+inc ⟨⟩ = ⟨⟩ I
 inc (b O) = b I
 inc (b I) = (inc b) O
 
@@ -77,9 +77,19 @@ _ = refl
 _ : inc (⟨⟩ I O I O) ≡ ⟨⟩ I O I I
 _ = refl
 
+_ : inc (⟨⟩ O) ≡ ⟨⟩ I
+_ = refl
+
+_ : inc (⟨⟩ O I) ≡ ⟨⟩ I O
+_ = refl
+
+_ : inc (⟨⟩ I) ≡ ⟨⟩ I O
+_ = refl
+
 to : ℕ → Bin
 to zero = ⟨⟩ O
 to (suc n) = inc (to n)
+
 
 _ : to 0 ≡ ⟨⟩ O
 _ = refl
