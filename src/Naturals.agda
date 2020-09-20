@@ -62,8 +62,8 @@ zero ∸ _ = zero
 (suc m) ∸ (suc n) = m ∸ n
 
 _^_ : ℕ → ℕ → ℕ
-zero    ^ n  =  zero
-(suc m) ^ n  =  n + (m * n)
+m ^ zero  = suc zero
+m ^ (suc n) = m * (m ^ n)
 
 data Bin : Set where
   ⟨⟩ : Bin
@@ -101,7 +101,6 @@ to : ℕ → Bin
 to zero = ⟨⟩ O
 to (suc n) = inc (to n)
 
-
 _ : to 0 ≡ ⟨⟩ O
 _ = refl
 
@@ -111,9 +110,30 @@ _ = refl
 _ : to 2 ≡ ⟨⟩ I O
 _ = refl
 
+incℕ : ℕ → ℕ
+incℕ n = suc n
+
 from : Bin → ℕ
-from ⟨⟩ = zero
-from ⟨⟩ O = zero
-from ⟨⟩ I = suc (zero)
-from (b O) = {!   !}
-from (b I) = {!   !}
+from ⟨⟩     = zero
+from (⟨⟩ O) = zero
+from (⟨⟩ I) = suc zero
+from (b O)  = 2 * (from b)
+from (b I)  = 1 + (2 * (from b))
+
+_ : from (⟨⟩ O) ≡ 0
+_ = refl
+
+_ : from (⟨⟩ I) ≡ 1
+_ = refl
+
+_ : from (⟨⟩ I O) ≡ 2
+_ = refl
+
+_ : from (⟨⟩ I I) ≡ 3
+_ = refl
+
+_ : from (⟨⟩ I O I I) ≡ 11
+_ = refl
+
+_ : from (⟨⟩ I O I O) ≡ 10
+_ = refl
