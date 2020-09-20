@@ -61,13 +61,18 @@ m ∸ zero = m
 zero ∸ _ = zero
 (suc m) ∸ (suc n) = m ∸ n
 
+_^_ : ℕ → ℕ → ℕ
+zero    ^ n  =  zero
+(suc m) ^ n  =  n + (m * n)
+
 data Bin : Set where
   ⟨⟩ : Bin
   _O : Bin → Bin
   _I : Bin → Bin
 
 inc : Bin → Bin
-inc ⟨⟩ = ⟨⟩ I
+inc ⟨⟩ = ⟨⟩
+inc (⟨⟩ I) = ⟨⟩ I O
 inc (b O) = b I
 inc (b I) = (inc b) O
 
@@ -83,7 +88,13 @@ _ = refl
 _ : inc (⟨⟩ O I) ≡ ⟨⟩ I O
 _ = refl
 
+_ : inc (⟨⟩ I I I) ≡ ⟨⟩ I O O O
+_ = refl
+
 _ : inc (⟨⟩ I) ≡ ⟨⟩ I O
+_ = refl
+
+_ : inc (⟨⟩ O O I I) ≡ ⟨⟩ O I O O
 _ = refl
 
 to : ℕ → Bin
@@ -99,3 +110,10 @@ _ = refl
 
 _ : to 2 ≡ ⟨⟩ I O
 _ = refl
+
+from : Bin → ℕ
+from ⟨⟩ = zero
+from ⟨⟩ O = zero
+from ⟨⟩ I = suc (zero)
+from (b O) = {!   !}
+from (b I) = {!   !}
