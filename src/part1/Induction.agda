@@ -34,7 +34,7 @@ _ =
   ≡⟨⟩
     suc (m + n) + p
   ≡⟨⟩
-    suc ((m + n) + p) -- why can we just rearrange here? we have changed `suc` from being applied to just m, to now the result of (m + n) + p.
+    suc ((m + n) + p)
   ≡⟨⟩
     -- ok, so really the goal of these 2 steps is to remove suc from the core equation so we can
     -- apply `+-assoc` recursively. Although seems that the 2 steps are optional.
