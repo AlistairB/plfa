@@ -5,12 +5,6 @@ open Eq using (_≡_; refl; cong; sym)
 open Eq.≡-Reasoning using (begin_; _≡⟨⟩_; step-≡; _∎)
 open import Data.Nat using (ℕ; zero; suc; _+_; _*_; _∸_)
 
-_ : (3 + 2) * 4 ≡ (3 * 4) + (2 * 4)
-_ = refl
-
-_ : 3 * (4 + 2) ≡ (3 * 4) + (3 * 2)
-_ = refl
-
 _ : (3 + 4) + 5 ≡ 3 + (4 + 5)
 _ =
   begin
@@ -40,85 +34,13 @@ _ =
   ≡⟨⟩
     suc (m + n) + p
   ≡⟨⟩
+    suc ((m + n) + p) -- why can we just rearrange here? we have changed `suc` from being applied to just m, to now the result of (m + n) + p.
+  ≡⟨⟩
+    -- ok, so really the goal of these 2 steps is to remove suc from the core equation so we can
+    -- apply `+-assoc` recursively. Although seems that the 2 steps are optional.
     suc ((m + n) + p)
   ≡⟨ cong suc (+-assoc m n p) ⟩
     suc (m + (n + p))
   ≡⟨⟩
     suc m + (n + p)
-  ∎
-
-+-identityʳ : ∀ (m : ℕ) → m + zero ≡ m
-+-identityʳ zero =
-  begin
-    zero + zero
-  ≡⟨⟩
-    zero
-  ∎
-+-identityʳ (suc m) =
-  begin
-    suc m + zero
-  ≡⟨⟩
-    suc (m + zero)
-  ≡⟨ cong suc (+-identityʳ m) ⟩
-    suc m
-  ∎
-
-+-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n)
-+-suc zero n =
-  begin
-    zero + suc n
-  ≡⟨⟩
-    suc n
-  ≡⟨⟩
-    suc (zero + n)
-  ∎
-+-suc (suc m) n =
-  begin
-    suc m + suc n
-  ≡⟨⟩
-    suc (m + suc n)
-  ≡⟨ cong suc (+-suc m n) ⟩
-    suc (suc (m + n))
-  ≡⟨⟩
-    suc (suc m + n)
-  ∎
-
-+-comm : ∀ (m n : ℕ) → m + n ≡ n + m
-+-comm m zero =
-  begin
-    m + zero
-  ≡⟨ +-identityʳ m ⟩
-    m
-  ≡⟨⟩
-    zero + m
-  ∎
-+-comm m (suc n) =
-  begin
-    m + suc n
-  ≡⟨ +-suc m n ⟩
-    suc (m + n)
-  ≡⟨ cong suc (+-comm m n) ⟩
-    suc (n + m)
-  ≡⟨⟩
-    suc n + m
-  ∎
-
-+-swap : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
-+-swap zero n p =
-  begin
-    zero + (n + p)
-  ≡⟨⟩
-    n + p
-  ≡⟨⟩
-    n + (zero + p)
-  ∎
-+-swap (suc m) n p =
-  begin
-    (suc m) + (n + p)
-  ≡⟨ cong suc (+-comm p (m + n)) ⟩
-    suc (n + m + p)
-  ≡⟨ cong suc (+-assoc m n p) ⟩
-    suc (n + (m + p))
-  ≡⟨ cong suc (sym (+-suc n (m + p))) ⟩
-    n + ((suc m) + p)
   ∎
