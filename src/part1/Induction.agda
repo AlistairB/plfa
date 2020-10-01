@@ -34,13 +34,13 @@ _ =
   ≡⟨⟩
     suc (m + n) + p
   ≡⟨⟩
-    suc ((m + n) + p)
-  ≡⟨⟩
-    -- ok, so really the goal of these 2 steps is to remove suc from the core equation so we can
-    -- apply `+-assoc` recursively. Although seems that the 2 steps are optional.
+    -- the reduction to this is automatic, thus not actually required, but makes what is happening clearer
     suc ((m + n) + p)
   ≡⟨ cong suc (+-assoc m n p) ⟩
     suc (m + (n + p))
   ≡⟨⟩
     suc m + (n + p)
   ∎
+
+-- +-assoc-2 : ∀ (n p : ℕ) → (2 + n) + p ≡ 2 + (n + p)
+-- +-assoc-2 n p =
