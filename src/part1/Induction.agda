@@ -42,5 +42,40 @@ _ =
     suc m + (n + p)
   ∎
 
--- +-assoc-2 : ∀ (n p : ℕ) → (2 + n) + p ≡ 2 + (n + p)
--- +-assoc-2 n p =
++-assoc-2 : ∀ (n p : ℕ) → (2 + n) + p ≡ 2 + (n + p)
++-assoc-2 n p =
+  begin
+    (2 + n) + p
+  ≡⟨⟩
+    suc (1 + n) + p
+  ≡⟨⟩
+    suc ((1 + n) + p)
+  ≡⟨ cong suc (+-assoc-1 n p) ⟩
+    suc (1 + (n + p))
+  ≡⟨⟩
+    2 + (n + p)
+  ∎
+  where
+  +-assoc-1 : ∀ (n p : ℕ) → (1 + n) + p ≡ 1 + (n + p)
+  +-assoc-1 n p =
+    begin
+      (1 + n) + p
+    ≡⟨⟩
+      suc (zero + n) + p
+    ≡⟨⟩
+      suc ((zero + n) + p)
+    ≡⟨ cong suc (+-assoc-0 n p) ⟩
+      suc (zero + (n + p))
+    ≡⟨⟩
+      1 + (n + p)
+    ∎
+    where
+    +-assoc-0 : ∀ (n p : ℕ) → (zero + n) + p ≡ zero + (n + p)
+    +-assoc-0 n p =
+      begin
+        (zero + n) + p
+      ≡⟨⟩
+        n + p
+      ≡⟨⟩
+        zero + (n + p)
+      ∎
