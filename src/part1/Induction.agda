@@ -95,3 +95,55 @@ _ =
   ≡⟨ cong suc (+-identityʳ m) ⟩
     (suc m)
   ∎
+
++-identityl : ∀ (m : ℕ) → zero + m ≡ m
++-identityl m = refl
+
++-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n)
++-suc zero n = refl
++-suc (suc m) n =
+  begin
+    (suc m) + (suc n)
+  ≡⟨⟩
+    suc (m + suc n)
+  ≡⟨ cong suc (+-suc m n) ⟩
+    suc (suc m + n)
+  ∎
+
++-comm : ∀ (m n : ℕ) → m + n ≡ n + m
++-comm m zero =
+  begin
+    m + zero
+  ≡⟨ (+-identityʳ m) ⟩
+    m
+  ≡⟨⟩
+    zero + m
+  ∎
++-comm m (suc n) =
+  begin
+    m + suc n
+  ≡⟨ (+-suc m n) ⟩
+    suc (m + n)
+  ≡⟨ cong suc (+-comm m n) ⟩
+    suc n + m
+  ∎
+
++-comm2 : ∀ (m n : ℕ) → m + n ≡ n + m
++-comm2 zero n =
+  begin
+    zero + n
+  ≡⟨⟩
+    n
+  ≡⟨ sym (+-identityʳ n) ⟩
+    n + zero
+  ∎
++-comm2 (suc m) n =
+  begin
+    suc m + n
+  ≡⟨⟩
+    suc (m + n)
+  ≡⟨ cong suc (+-comm2 m n) ⟩
+    suc (n + m)
+  ≡⟨ sym (+-suc n m) ⟩
+    n + suc m
+  ∎
