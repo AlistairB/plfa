@@ -147,3 +147,37 @@ _ =
   ≡⟨ sym (+-suc n m) ⟩
     n + suc m
   ∎
+
++-rearrange : ∀ (m n p q : ℕ) → (m + n) + (p + q) ≡ m + (n + p) + q
++-rearrange zero n p q =
+  begin
+    (zero + n) + (p + q)
+  ≡⟨⟩
+    n + (p + q)
+  ≡⟨ sym (+-assoc n p q) ⟩
+    (n + p) + q
+  ≡⟨⟩
+    zero + (n + p) + q
+  ∎
++-rearrange (suc m) n p q =
+  begin
+    (suc m + n) + (p + q)
+  ≡⟨⟩
+    suc (m + n) + (p + q)
+  ≡⟨ cong suc (+-rearrange m n p q) ⟩
+    suc m + (n + p) + q
+  ∎
+
++-rearrange2 : ∀ (m n p q : ℕ) → (m + n) + (p + q) ≡ m + (n + p) + q
++-rearrange2 m n p q =
+  begin
+    (m + n) + (p + q)
+  ≡⟨ +-assoc m n (p + q) ⟩
+    m + (n + (p + q))
+  ≡⟨ cong (m +_) (sym (+-assoc n p q)) ⟩
+    m + ((n + p) + q)
+  ≡⟨ sym (+-assoc m (n + p) q) ⟩
+    (m + (n + p)) + q
+  ≡⟨⟩
+    m + (n + p) + q
+  ∎
