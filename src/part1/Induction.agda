@@ -208,15 +208,13 @@ lemma eq rewrite eq = refl
 
 -- Show multiplication distributes over addition
 
--- *-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
--- *-distrib zero n p = refl
--- *-distrib (suc m) n p = {!   !}
---   begin
---     (m + n) * p
---   ≡⟨ +-comm m (n + p) ⟩
---     (n + p) + m
---   ≡⟨ +-assoc n p m ⟩
---     n + (p + m)
---   ≡⟨ cong (n +_) (+-comm p m) ⟩
---     m * p + n * p
---   ∎
+*-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+*-distrib zero n p = refl
+*-distrib (suc m) n p =
+  begin
+    (suc m + n) * p
+  ≡⟨⟩
+    suc (m + n) * p
+  ≡⟨ cong suc (*-distrib m n p) ⟩
+    suc m * p + n * p
+  ∎
