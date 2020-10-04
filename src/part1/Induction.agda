@@ -187,19 +187,21 @@ _ =
 -- +-assoc′ zero n p = refl
 -- +-assoc′ (suc m) n p = {!   !}
 
--- +-swap : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
--- +-swap m n p =
---   begin
---     m + (n + p)
---   ≡⟨ +-comm m (n + p) ⟩
---     (n + p) + m
---   ≡⟨⟩
---     n + (m + p)
---   ∎
-
 lemma : ∀ {a b c d : ℕ} → (a ≡ b) → (d + (a + c)) ≡ (d + (b + c))
 lemma eq rewrite eq = refl
 
 +-assoc′ : ∀ (m n p : ℕ) → (m + n) + p ≡ m + (n + p)
 +-assoc′ zero n p = refl
 +-assoc′ (suc m) n p rewrite +-assoc′ m n p = refl
+
++-swap : ∀ (m n p : ℕ) → m + (n + p) ≡ n + (m + p)
++-swap m n p =
+  begin
+    m + (n + p)
+  ≡⟨ +-comm m (n + p) ⟩
+    (n + p) + m
+  ≡⟨ +-assoc n p m ⟩
+    n + (p + m)
+  ≡⟨ cong (n +_) (+-comm p m) ⟩
+    n + (m + p)
+  ∎
