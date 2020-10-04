@@ -205,3 +205,18 @@ lemma eq rewrite eq = refl
   ≡⟨ cong (n +_) (+-comm p m) ⟩
     n + (m + p)
   ∎
+
+-- Show multiplication distributes over addition
+
+-- *-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+-- *-distrib zero n p = refl
+-- *-distrib (suc m) n p = {!   !}
+--   begin
+--     (m + n) * p
+--   ≡⟨ +-comm m (n + p) ⟩
+--     (n + p) + m
+--   ≡⟨ +-assoc n p m ⟩
+--     n + (p + m)
+--   ≡⟨ cong (n +_) (+-comm p m) ⟩
+--     m * p + n * p
+--   ∎
