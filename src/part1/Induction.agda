@@ -222,7 +222,7 @@ lemma eq rewrite eq = refl
   ≡⟨⟩
     suc zero + (m * suc zero)
   ≡⟨ cong ((suc zero) +_) (*-identityʳ m) ⟩
-    (suc m)
+    suc m
   ∎
 
 *-zeroʳ : ∀ (m : ℕ) → m * zero ≡ zero
@@ -236,13 +236,39 @@ lemma eq rewrite eq = refl
     zero
   ∎
 
+-- case split P
 
 *-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
 *-distrib m n zero =
   begin
     (m + n) * zero
-  ≡⟨ *-zeroʳ (m + n)⟩
+  ≡⟨ *-zeroʳ (m + n) ⟩
     zero
+  ≡⟨ sym (*-zeroʳ m) ⟩
+    m * zero
+  ≡⟨ cong ((m * zero) +_) (sym (+-identityʳ zero)) ⟩
+    m * zero + zero
+  ≡⟨ cong ((m * zero) +_) (sym (*-zeroʳ n)) ⟩
     m * zero + n * zero
   ∎
 *-distrib m n (suc p) = {!!}
+
+-- case split M
+
+-- *-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+-- *-distrib zero n p = refl
+-- *-distrib (suc m) n p =
+--   begin
+--     (suc m + n) * p
+--   ≡⟨⟩
+--     -- I tried to get to `suc ((m + n) * p)` then I can cong suc and recurse to solve.
+--     -- However, suc on the outside is not equivalent in this case.
+--     (suc (m + n)) * p
+--   ≡⟨⟩
+--     p + ((m + n) * p) -- I think this is correct by applying the *, but don't think it helps.
+--   -- ???
+--   ≡⟨ cong (p +_) (*-distrib m n p)⟩
+--     p + (m * p + n * p)
+--   ≡⟨⟩
+--     suc m * p + n * p
+--   ∎
