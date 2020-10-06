@@ -236,6 +236,24 @@ lemma eq rewrite eq = refl
     zero
   ∎
 
+*-switch : ∀ (a b : ℕ) → a * b ≡ b * a
+*-switch zero b =
+  begin
+    zero * b
+  ≡⟨⟩
+    zero
+  ≡⟨ sym (*-zeroʳ b) ⟩
+    b * zero
+  ∎
+*-switch (suc a) b = {!!}
+  -- begin
+  --   (suc a) * b
+  -- ≡⟨⟩
+  --   b + (a * b)
+  -- ≡⟨ cong (b +_) (*-comm a b) ⟩
+  --   b * suc a
+  -- ∎
+
 -- case split P
 
 *-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
@@ -254,6 +272,10 @@ lemma eq rewrite eq = refl
 *-distrib m n (suc p) =
   begin
     (m + n) * suc p
+  ≡⟨ *-switch (m + n) (suc p) ⟩
+    suc p * (m + n)
+  ≡⟨⟩
+    (m + n) + (p * (m + n))
   ≡⟨⟩
     m * suc p + n * suc p
   ∎
