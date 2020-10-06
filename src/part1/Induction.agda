@@ -246,12 +246,17 @@ lemma eq rewrite eq = refl
     zero
   ≡⟨ sym (*-zeroʳ m) ⟩
     m * zero
-  ≡⟨ cong ((m * zero) +_) (sym (+-identityʳ zero)) ⟩
+  ≡⟨ (sym (+-identityʳ (m * zero))) ⟩
     m * zero + zero
   ≡⟨ cong ((m * zero) +_) (sym (*-zeroʳ n)) ⟩
     m * zero + n * zero
   ∎
-*-distrib m n (suc p) = {!!}
+*-distrib m n (suc p) =
+  begin
+    (m + n) * suc p
+  ≡⟨⟩
+    m * suc p + n * suc p
+  ∎
 
 -- case split M
 
