@@ -256,8 +256,8 @@ lemma eq rewrite eq = refl
 
 -- case split P
 
-*-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
-*-distrib m n zero =
+*-distribP : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+*-distribP m n zero =
   begin
     (m + n) * zero
   ≡⟨ *-zeroʳ (m + n) ⟩
@@ -269,7 +269,7 @@ lemma eq rewrite eq = refl
   ≡⟨ cong ((m * zero) +_) (sym (*-zeroʳ n)) ⟩
     m * zero + n * zero
   ∎
-*-distrib m n (suc p) =
+*-distribP m n (suc p) =
   begin
     (m + n) * suc p
   ≡⟨ *-switch (m + n) (suc p) ⟩
@@ -282,20 +282,17 @@ lemma eq rewrite eq = refl
 
 -- case split M
 
--- *-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
--- *-distrib zero n p = refl
--- *-distrib (suc m) n p =
---   begin
---     (suc m + n) * p
---   ≡⟨⟩
---     -- I tried to get to `suc ((m + n) * p)` then I can cong suc and recurse to solve.
---     -- However, suc on the outside is not equivalent in this case.
---     (suc (m + n)) * p
---   ≡⟨⟩
---     p + ((m + n) * p) -- I think this is correct by applying the *, but don't think it helps.
---   -- ???
---   ≡⟨ cong (p +_) (*-distrib m n p)⟩
---     p + (m * p + n * p)
---   ≡⟨⟩
---     suc m * p + n * p
---   ∎
+*-distribM : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+*-distribM zero n p = refl
+*-distribM (suc m) n p =
+  begin
+    (suc m + n) * p
+  ≡⟨⟩
+    (suc (m + n)) * p
+  ≡⟨⟩
+    p + ((m + n) * p)
+  ≡⟨ cong (p +_) (*-distribM m n p)⟩
+    p + (m * p + n * p) -- I don't know how to go from here..
+  ≡⟨⟩
+    suc m * p + n * p
+  ∎
