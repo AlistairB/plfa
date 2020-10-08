@@ -276,6 +276,8 @@ lemma eq rewrite eq = refl
     suc p * (m + n)
   ≡⟨⟩
     (m + n) + (p * (m + n))
+    -- I could potentially shuffle further than this, even recurse with `((m + n) * p)`.
+    -- However, I need to get the suc back.. which doesn't seem possible.
   ≡⟨⟩
     m * suc p + n * suc p
   ∎
@@ -292,7 +294,8 @@ lemma eq rewrite eq = refl
   ≡⟨⟩
     p + ((m + n) * p)
   ≡⟨ cong (p +_) (*-distribM m n p)⟩
-    p + (m * p + n * p) -- I don't know how to go from here..
+    p + (m * p + n * p)
+    -- I don't know how to go from here..
   ≡⟨⟩
     suc m * p + n * p
   ∎
