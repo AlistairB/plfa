@@ -254,6 +254,18 @@ lemma eq rewrite eq = refl
   --   b * suc a
   -- ∎
 
+*-suc-juggle : ∀ (m p : ℕ) → m + (m * p) ≡ m * suc p
+*-suc-juggle m p =
+  begin
+    m + (m * p)
+  ≡⟨ cong (m +_) (*-switch m p) ⟩
+    m + (p * m)
+  ≡⟨⟩
+    suc p * m
+  ≡⟨ *-switch (suc p) m ⟩
+    m * suc p
+  ∎
+
 -- case split P
 
 *-distribP : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
@@ -276,26 +288,40 @@ lemma eq rewrite eq = refl
     suc p * (m + n)
   ≡⟨⟩
     (m + n) + (p * (m + n))
-    -- I could potentially shuffle further than this, even recurse with `((m + n) * p)`.
-    -- However, I need to get the suc back.. which doesn't seem possible.
-  ≡⟨⟩
+  ≡⟨ cong ((m + n) +_) (*-switch p (m + n)) ⟩
+    (m + n) + ((m + n) * p)
+  ≡⟨ cong ((m + n) +_) (*-distribP m n p) ⟩
+    (m + n) + (m * p + n * p)
+  ≡⟨ +-assoc m n (m * p + n * p)⟩
+    m + (n + (m * p + n * p))
+  ≡⟨ cong (m +_) (+-comm n (m * p + n * p)) ⟩
+    m + ((m * p + n * p) + n)
+  ≡⟨ cong (m +_) ( +-assoc (m * p) (n * p) n) ⟩
+    m + (m * p + (n * p + n))
+  ≡⟨ sym (+-assoc m (m * p) (n * p + n)) ⟩
+    (m + m * p) + (n * p + n)
+  ≡⟨ cong ((m + (m * p)) +_) (+-comm (n * p) n) ⟩
+    (m + m * p) + (n + n * p)
+  ≡⟨ cong ((m + (m * p)) +_) (*-suc-juggle n p)  ⟩
+    (m + m * p) + (n * suc p)
+  ≡⟨ cong (_+ (n * suc p)) (*-suc-juggle m p) ⟩
     m * suc p + n * suc p
   ∎
 
 -- case split M
 
-*-distribM : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
-*-distribM zero n p = refl
-*-distribM (suc m) n p =
-  begin
-    (suc m + n) * p
-  ≡⟨⟩
-    (suc (m + n)) * p
-  ≡⟨⟩
-    p + ((m + n) * p)
-  ≡⟨ cong (p +_) (*-distribM m n p)⟩
-    p + (m * p + n * p)
-    -- I don't know how to go from here..
-  ≡⟨⟩
-    suc m * p + n * p
-  ∎
+-- *-distribM : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+-- *-distribM zero n p = refl
+-- *-distribM (suc m) n p =
+--   begin
+--     (suc m + n) * p
+--   ≡⟨⟩
+--     (suc (m + n)) * p
+--   ≡⟨⟩
+--     p + ((m + n) * p)
+--   ≡⟨ cong (p +_) (*-distribM m n p)⟩
+--     p + (m * p + n * p)
+--     -- I don't know how to go from here..
+--   ≡⟨⟩
+--     suc m * p + n * p
+--   ∎
