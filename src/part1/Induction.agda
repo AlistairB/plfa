@@ -245,14 +245,16 @@ lemma eq rewrite eq = refl
   ≡⟨ sym (*-zeroʳ b) ⟩
     b * zero
   ∎
-*-switch (suc a) b = {!!}
-  -- begin
-  --   (suc a) * b
-  -- ≡⟨⟩
-  --   b + (a * b)
-  -- ≡⟨ cong (b +_) (*-comm a b) ⟩
-  --   b * suc a
-  -- ∎
+*-switch (suc a) b =
+  begin
+    (suc a) * b
+  ≡⟨⟩
+    b + (a * b)
+  ≡⟨ cong (b +_) (*-switch a b) ⟩
+    b + (b * a) -- don't know how to progress..
+  ≡⟨⟩
+    b * suc a
+  ∎
 
 *-suc-juggle : ∀ (m p : ℕ) → m + (m * p) ≡ m * suc p
 *-suc-juggle m p =
@@ -266,10 +268,8 @@ lemma eq rewrite eq = refl
     m * suc p
   ∎
 
--- case split P
-
-*-distribP : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
-*-distribP m n zero =
+*-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+*-distrib m n zero =
   begin
     (m + n) * zero
   ≡⟨ *-zeroʳ (m + n) ⟩
@@ -281,7 +281,7 @@ lemma eq rewrite eq = refl
   ≡⟨ cong ((m * zero) +_) (sym (*-zeroʳ n)) ⟩
     m * zero + n * zero
   ∎
-*-distribP m n (suc p) =
+*-distrib m n (suc p) =
   begin
     (m + n) * suc p
   ≡⟨ *-switch (m + n) (suc p) ⟩
@@ -290,7 +290,7 @@ lemma eq rewrite eq = refl
     (m + n) + (p * (m + n))
   ≡⟨ cong ((m + n) +_) (*-switch p (m + n)) ⟩
     (m + n) + ((m + n) * p)
-  ≡⟨ cong ((m + n) +_) (*-distribP m n p) ⟩
+  ≡⟨ cong ((m + n) +_) (*-distrib m n p) ⟩
     (m + n) + (m * p + n * p)
   ≡⟨ +-assoc m n (m * p + n * p)⟩
     m + (n + (m * p + n * p))
@@ -307,21 +307,3 @@ lemma eq rewrite eq = refl
   ≡⟨ cong (_+ (n * suc p)) (*-suc-juggle m p) ⟩
     m * suc p + n * suc p
   ∎
-
--- case split M
-
--- *-distribM : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
--- *-distribM zero n p = refl
--- *-distribM (suc m) n p =
---   begin
---     (suc m + n) * p
---   ≡⟨⟩
---     (suc (m + n)) * p
---   ≡⟨⟩
---     p + ((m + n) * p)
---   ≡⟨ cong (p +_) (*-distribM m n p)⟩
---     p + (m * p + n * p)
---     -- I don't know how to go from here..
---   ≡⟨⟩
---     suc m * p + n * p
---   ∎
