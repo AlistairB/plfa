@@ -317,3 +317,21 @@ lemma eq rewrite eq = refl
   ≡⟨ sym (*-suc n m) ⟩
     n * suc m
   ∎
+
+zero-minus : ∀ (n : ℕ) → zero ∸ n ≡ zero
+zero-minus zero = refl
+zero-minus (suc n) = refl
+
+∸-+-assoc : ∀ (m n p : ℕ) → m ∸ n ∸ p ≡ m ∸ (n + p)
+∸-+-assoc m zero p =
+  begin
+    m ∸ zero ∸ p
+  ≡⟨⟩
+    m ∸ p
+  -- ≡⟨ zero-minus (n ∸ p)⟩
+  --   zero
+  -- ≡⟨ sym (zero-minus (n + p)) ⟩
+  ≡⟨⟩
+    m ∸ (zero + p)
+  ∎
+∸-+-assoc (suc m) n p = {!!}
