@@ -236,74 +236,23 @@ lemma eq rewrite eq = refl
     zero
   ∎
 
-*-switch : ∀ (a b : ℕ) → a * b ≡ b * a
-*-switch zero b =
+*-distribM : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
+*-distribM zero n p = refl
+*-distribM (suc m) n p =
   begin
-    zero * b
+    (suc m + n) * p
   ≡⟨⟩
-    zero
-  ≡⟨ sym (*-zeroʳ b) ⟩
-    b * zero
-  ∎
-*-switch (suc a) b =
-  begin
-    (suc a) * b
+    (suc (m + n)) * p
   ≡⟨⟩
-    b + (a * b)
-  ≡⟨ cong (b +_) (*-switch a b) ⟩
-    b + (b * a) -- don't know how to progress..
+    p + ((m + n) * p)
+  ≡⟨ cong (p +_) (*-distribM m n p)⟩
+    p + (m * p + n * p)
+  ≡⟨ sym (+-assoc p (m * p) (n * p)) ⟩
+    (p + (m * p)) + (n * p)
   ≡⟨⟩
-    b * suc a
+    suc m * p + n * p
   ∎
 
-*-suc-juggle : ∀ (m p : ℕ) → m + (m * p) ≡ m * suc p
-*-suc-juggle m p =
-  begin
-    m + (m * p)
-  ≡⟨ cong (m +_) (*-switch m p) ⟩
-    m + (p * m)
-  ≡⟨⟩
-    suc p * m
-  ≡⟨ *-switch (suc p) m ⟩
-    m * suc p
-  ∎
-
-*-distrib : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
-*-distrib m n zero =
-  begin
-    (m + n) * zero
-  ≡⟨ *-zeroʳ (m + n) ⟩
-    zero
-  ≡⟨ sym (*-zeroʳ m) ⟩
-    m * zero
-  ≡⟨ (sym (+-identityʳ (m * zero))) ⟩
-    m * zero + zero
-  ≡⟨ cong ((m * zero) +_) (sym (*-zeroʳ n)) ⟩
-    m * zero + n * zero
-  ∎
-*-distrib m n (suc p) =
-  begin
-    (m + n) * suc p
-  ≡⟨ *-switch (m + n) (suc p) ⟩
-    suc p * (m + n)
-  ≡⟨⟩
-    (m + n) + (p * (m + n))
-  ≡⟨ cong ((m + n) +_) (*-switch p (m + n)) ⟩
-    (m + n) + ((m + n) * p)
-  ≡⟨ cong ((m + n) +_) (*-distrib m n p) ⟩
-    (m + n) + (m * p + n * p)
-  ≡⟨ +-assoc m n (m * p + n * p)⟩
-    m + (n + (m * p + n * p))
-  ≡⟨ cong (m +_) (+-comm n (m * p + n * p)) ⟩
-    m + ((m * p + n * p) + n)
-  ≡⟨ cong (m +_) ( +-assoc (m * p) (n * p) n) ⟩
-    m + (m * p + (n * p + n))
-  ≡⟨ sym (+-assoc m (m * p) (n * p + n)) ⟩
-    (m + m * p) + (n * p + n)
-  ≡⟨ cong ((m + (m * p)) +_) (+-comm (n * p) n) ⟩
-    (m + m * p) + (n + n * p)
-  ≡⟨ cong ((m + (m * p)) +_) (*-suc-juggle n p)  ⟩
-    (m + m * p) + (n * suc p)
-  ≡⟨ cong (_+ (n * suc p)) (*-suc-juggle m p) ⟩
-    m * suc p + n * suc p
-  ∎
+*-distrib-+ : ∀ (m n p : ℕ) -> (m + n) * p ≡ m * p + n * p
+*-distrib-+ zero n p = refl
+*-distrib-+ (suc m) n p rewrite *-distrib-+ m n p | +-assoc p (m * p) (n * p) = refl
