@@ -236,6 +236,9 @@ lemma eq rewrite eq = refl
     zero
   ∎
 
+*-zeroˡ : ∀ (m : ℕ) → zero * m ≡ zero
+*-zeroˡ m = refl
+
 *-distribM : ∀ (m n p : ℕ) → (m + n) * p ≡ m * p + n * p
 *-distribM zero n p = refl
 *-distribM (suc m) n p =
@@ -270,4 +273,47 @@ lemma eq rewrite eq = refl
     n * p + m * (n * p)
   ≡⟨⟩
     suc m * (n * p)
+  ∎
+
+
+*-suc : ∀ m n → m * suc n ≡ m + m * n
+*-suc zero n = refl
+*-suc (suc m) n =
+  begin
+    suc m * suc n
+  ≡⟨⟩
+    suc n + (m * suc n)
+  ≡⟨ cong (suc n +_) (*-suc m n) ⟩
+    suc n + (m + m * n)
+  ≡⟨⟩
+    suc (n + (m + m * n))
+  ≡⟨ cong suc (sym (+-assoc n m (m * n))) ⟩
+    suc (n + m + m * n)
+  ≡⟨ cong (λ x → suc (x + m * n)) (+-comm n m) ⟩
+    suc (m + n + m * n)
+  ≡⟨ cong suc (+-assoc m n (m * n)) ⟩
+    suc (m + (n + m * n))
+  ≡⟨⟩
+    suc m + suc m * n
+  ∎
+
+
+*-comm : ∀ (m n : ℕ) → m * n ≡ n * m
+*-comm zero n =
+  begin
+    zero * n
+  ≡⟨ *-zeroˡ n ⟩
+    zero
+  ≡⟨ sym (*-zeroʳ n) ⟩
+    n * zero
+  ∎
+*-comm (suc m) n =
+  begin
+    suc m * n
+  ≡⟨⟩
+    n + m * n
+  ≡⟨ cong (n +_) (*-comm m n)⟩
+    n + n * m
+  ≡⟨ sym (*-suc n m) ⟩
+    n * suc m
   ∎
