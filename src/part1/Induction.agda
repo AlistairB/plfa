@@ -323,15 +323,23 @@ zero-minus zero = refl
 zero-minus (suc n) = refl
 
 ∸-+-assoc : ∀ (m n p : ℕ) → m ∸ n ∸ p ≡ m ∸ (n + p)
-∸-+-assoc m zero p =
+∸-+-assoc zero zero p = refl
+∸-+-assoc zero (suc n) p =
   begin
-    m ∸ zero ∸ p
+    zero ∸ (suc n) ∸ p
   ≡⟨⟩
-    m ∸ p
-  -- ≡⟨ zero-minus (n ∸ p)⟩
-  --   zero
-  -- ≡⟨ sym (zero-minus (n + p)) ⟩
+    zero ∸ p
+  ≡⟨ zero-minus p ⟩
+    zero
   ≡⟨⟩
-    m ∸ (zero + p)
+    zero ∸ (suc n + p)
   ∎
-∸-+-assoc (suc m) n p = {!!}
+∸-+-assoc (suc m) zero p = refl
+∸-+-assoc (suc m) (suc n) p =
+  begin
+    (suc m) ∸ (suc n) ∸ p
+  ≡⟨⟩
+    m ∸ n ∸ p
+  ≡⟨ ∸-+-assoc m n p ⟩
+    (suc m) ∸ (suc n + p)
+  ∎
