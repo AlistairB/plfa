@@ -387,3 +387,27 @@ zero-minus (suc n) = refl
   ≡⟨⟩
     (m ^ suc p) * (n ^ suc p)
   ∎
+
+^-*-assoc : ∀ (m n p : ℕ) → (m ^ n) ^ p ≡ m ^ (n * p)
+^-*-assoc m n zero =
+  begin
+    (m ^ n) ^ zero
+  ≡⟨⟩
+    suc zero
+  ≡⟨⟩
+    m ^ zero
+  ≡⟨ cong (m ^_) (sym (*-zeroʳ n)) ⟩
+    m ^ (n * zero)
+  ∎
+^-*-assoc m n (suc p) =
+  begin
+    (m ^ n) ^ suc p
+  ≡⟨⟩
+    (m ^ n) * ((m ^ n) ^ p)
+  ≡⟨ cong ((m ^ n) *_) (^-*-assoc m n p) ⟩
+    (m ^ n) * (m ^ (n * p))
+  ≡⟨ sym (^-distribˡ-+-* m n (n * p)) ⟩
+    m ^ (n + (n * p))
+  ≡⟨ cong (m ^_) (sym (*-suc n p)) ⟩
+    m ^ (n * suc p)
+  ∎
