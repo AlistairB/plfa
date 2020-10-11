@@ -3,7 +3,7 @@ module part1.Induction where
 import Relation.Binary.PropositionalEquality as Eq
 open Eq using (_≡_; refl; cong; sym)
 open Eq.≡-Reasoning using (begin_; _≡⟨⟩_; step-≡; _∎)
-open import Data.Nat using (ℕ; zero; suc; _+_; _*_; _∸_)
+open import Data.Nat using (ℕ; zero; suc; _+_; _*_; _∸_;_^_)
 
 _ : (3 + 4) + 5 ≡ 3 + (4 + 5)
 _ =
@@ -342,4 +342,25 @@ zero-minus (suc n) = refl
     m ∸ n ∸ p
   ≡⟨ ∸-+-assoc m n p ⟩
     (suc m) ∸ (suc n + p)
+  ∎
+
+--  m ^ (n + p) ≡ (m ^ n) * (m ^ p)  (^-distribˡ-+-*)
+--  (m * n) ^ p ≡ (m ^ p) * (n ^ p)  (^-distribʳ-*)
+--  (m ^ n) ^ p ≡ m ^ (n * p)        (^-*-assoc)
+
+^-distribˡ-+-* : ∀ (m n p : ℕ) → m ^ (n + p) ≡ (m ^ n) * (m ^ p)
+^-distribˡ-+-* m zero p = sym (+-identityʳ (m ^ p))
+^-distribˡ-+-* m (suc n) p =
+  begin
+    m ^ (suc n + p)
+  ≡⟨⟩
+    m ^ (suc (n + p))
+  ≡⟨⟩
+    m * (m ^ (n + p))
+  ≡⟨ cong (m *_) (^-distribˡ-+-* m n p) ⟩
+    m * ((m ^ n) * (m ^ p))
+  ≡⟨ sym (*-assoc m (m ^ n) (m ^ p))⟩
+    (m * (m ^ n)) * (m ^ p)
+  ≡⟨⟩
+    (m ^ suc n) * (m ^ p)
   ∎
