@@ -364,3 +364,26 @@ zero-minus (suc n) = refl
   ≡⟨⟩
     (m ^ suc n) * (m ^ p)
   ∎
+
+^-distribʳ-* : ∀ (m n p : ℕ) → (m * n) ^ p ≡ (m ^ p) * (n ^ p)
+^-distribʳ-* m n zero = refl
+^-distribʳ-* m n (suc p) =
+  begin
+    (m * n) ^ (suc p)
+  ≡⟨⟩
+    (m * n) * ((m * n) ^ p)
+  ≡⟨ cong ((m * n) *_) (^-distribʳ-* m n p) ⟩
+    (m * n) * ((m ^ p) * (n ^ p))
+  ≡⟨ cong (_* ((m ^ p) * (n ^ p))) (*-comm m n) ⟩
+    (n * m) * ((m ^ p) * (n ^ p))
+  ≡⟨ sym (*-assoc (n * m) (m ^ p) (n ^ p)) ⟩
+    (n * m) * (m ^ p) * (n ^ p)
+  ≡⟨ cong (_* (n ^ p)) (*-assoc n m (m ^ p))⟩
+    n * (m * (m ^ p)) * (n ^ p)
+  ≡⟨ cong (_* (n ^ p)) (*-comm n (m * (m ^ p))) ⟩
+    ((m * (m ^ p)) * n) * (n ^ p)
+  ≡⟨ *-assoc (m * (m ^ p)) n (n ^ p) ⟩
+    (m * (m ^ p)) * (n * (n ^ p))
+  ≡⟨⟩
+    (m ^ suc p) * (n ^ suc p)
+  ∎
