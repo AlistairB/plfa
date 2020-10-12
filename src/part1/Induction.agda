@@ -424,7 +424,7 @@ inc (b O) = b I
 inc (b I) = (inc b) O
 
 to : ℕ → Bin
-to zero = ⟨⟩ O
+to zero = ⟨⟩
 to (suc n) = inc (to n)
 
 from : Bin → ℕ
@@ -440,16 +440,17 @@ _ = refl
 _ : from (inc (⟨⟩ O O I O)) ≡ suc (from (⟨⟩ O O I O))
 _ = refl
 
-bin-from-suc : ∀ ( b : Bin ) → from (inc b) ≡ suc (from b)
-bin-from-suc ⟨⟩ = refl
-bin-from-suc (b O) =
-  begin
-    from (inc (b O))
-  ≡⟨⟩
-    from (b I)
-  ≡⟨⟩
-    1 + (2 * (from b))
-  ≡⟨⟩
-    suc (from (b O))
-  ∎
-bin-from-suc (b I) = {!!}
+-- bin-from-suc : ∀ ( b : Bin ) → from (inc b) ≡ suc (from b)
+-- bin-from-suc ⟨⟩ = refl
+-- bin-from-suc (b O) = {!!}
+-- bin-from-suc (b I) = {!!}
+
+-- bin-to-from : ∀ ( b : Bin ) → to (from b) ≡ b
+-- bin-to-from ⟨⟩ = refl
+-- bin-to-from (b O) =
+--   begin
+--     to (from (b O))
+--   ≡⟨⟩
+--     b O
+--   ∎
+-- bin-to-from (b I) = {!!}
