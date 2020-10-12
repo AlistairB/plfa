@@ -411,3 +411,45 @@ zero-minus (suc n) = refl
   ≡⟨ cong (m ^_) (sym (*-suc n p)) ⟩
     m ^ (n * suc p)
   ∎
+
+data Bin : Set where
+  ⟨⟩ : Bin
+  _O : Bin → Bin
+  _I : Bin → Bin
+
+inc : Bin → Bin
+inc ⟨⟩ = ⟨⟩ I
+inc (⟨⟩ I) = ⟨⟩ I O
+inc (b O) = b I
+inc (b I) = (inc b) O
+
+to : ℕ → Bin
+to zero = ⟨⟩ O
+to (suc n) = inc (to n)
+
+from : Bin → ℕ
+from ⟨⟩     = zero
+from (⟨⟩ O) = zero
+from (⟨⟩ I) = suc zero
+from (b O)  = 2 * (from b)
+from (b I)  = 1 + (2 * (from b))
+
+_ : from (inc (⟨⟩ O O I I)) ≡ suc (from (⟨⟩ O O I I))
+_ = refl
+
+_ : from (inc (⟨⟩ O O I O)) ≡ suc (from (⟨⟩ O O I O))
+_ = refl
+
+bin-from-suc : ∀ ( b : Bin ) → from (inc b) ≡ suc (from b)
+bin-from-suc ⟨⟩ = refl
+bin-from-suc (b O) =
+  begin
+    from (inc (b O))
+  ≡⟨⟩
+    from (b I)
+  ≡⟨⟩
+    1 + (2 * (from b))
+  ≡⟨⟩
+    suc (from (b O))
+  ∎
+bin-from-suc (b I) = {!!}

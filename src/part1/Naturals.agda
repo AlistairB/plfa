@@ -71,7 +71,7 @@ data Bin : Set where
   _I : Bin → Bin
 
 inc : Bin → Bin
-inc ⟨⟩ = ⟨⟩
+inc ⟨⟩ = ⟨⟩ I
 inc (⟨⟩ I) = ⟨⟩ I O
 inc (b O) = b I
 inc (b I) = (inc b) O
