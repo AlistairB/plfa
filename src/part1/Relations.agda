@@ -42,3 +42,18 @@ data Total (m n : ℕ) : Set where
       n ≤ m
       ---------
     → Total m n
+
+
+≤-refl : ∀ {n : ℕ}
+    -----
+  → n ≤ n
+≤-refl {zero} = z≤n
+≤-refl {suc n} = s≤s (≤-refl {n})
+
+≤-trans : ∀ {m n p : ℕ}
+    -----
+    → m ≤ n
+    → n ≤ p
+    → m ≤ p
+≤-trans z≤n _ = z≤n
+≤-trans (s≤s (m≤n)) (s≤s (n≤p)) = s≤s (≤-trans m≤n n≤p)
