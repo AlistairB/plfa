@@ -57,3 +57,11 @@ data Total (m n : ℕ) : Set where
     → m ≤ p
 ≤-trans z≤n _ = z≤n
 ≤-trans (s≤s (m≤n)) (s≤s (n≤p)) = s≤s (≤-trans m≤n n≤p)
+
+≤-anti-sym : ∀ {m n : ℕ}
+    -----
+    → m ≤ n
+    → n ≤ m
+    → m ≡ n
+≤-anti-sym z≤n z≤n = refl
+≤-anti-sym (s≤s (m≤n)) (s≤s (n≤m)) = cong suc (≤-anti-sym m≤n n≤m)
