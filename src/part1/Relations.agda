@@ -31,19 +31,6 @@ _ = s≤s (s≤s z≤n)
 
 -- s≤s says both must be suc n however z≤n says one is zero, so the case is not feasible.
 
-data Total (m n : ℕ) : Set where
-
-  forward :
-      m ≤ n
-      ---------
-    → Total m n
-
-  flipped :
-      n ≤ m
-      ---------
-    → Total m n
-
-
 ≤-refl : ∀ {n : ℕ}
     -----
   → n ≤ n
@@ -65,3 +52,22 @@ data Total (m n : ℕ) : Set where
     → m ≡ n
 ≤-anti-sym z≤n z≤n = refl
 ≤-anti-sym (s≤s (m≤n)) (s≤s (n≤m)) = cong suc (≤-anti-sym m≤n n≤m)
+
+data Total (m n : ℕ) : Set where
+
+  forward :
+      m ≤ n
+      ---------
+    → Total m n
+
+  flipped :
+      n ≤ m
+      ---------
+    → Total m n
+
+≤-total : ∀ (m n : ℕ) → Total m n
+≤-total zero n       = forward z≤n
+≤-total (suc m) zero = flipped z≤n
+≤-total (suc m) (suc n) with ≤-total m n
+...             | forward m≤n = forward (s≤s m≤n)
+...             | flipped n≤m = flipped (s≤s n≤m)
