@@ -1,7 +1,7 @@
 module part1.Relations where
 
 import Relation.Binary.PropositionalEquality as Eq
-open Eq using (_≡_; refl; cong)
+open Eq using (_≡_; refl; cong; sym)
 open import Data.Nat using (ℕ; zero; suc; _+_; _*_)
 open import Data.Nat.Properties using (+-comm; *-comm; +-identityʳ)
 
@@ -101,6 +101,18 @@ data Total (m n : ℕ) : Set where
 *-monoʳ-≤ zero    p q p≤q  = z≤n
 *-monoʳ-≤ (suc n) p q p≤q  = +-mono-≤ p q (n * p) (n * q) p≤q (*-monoʳ-≤ n p q p≤q)
 
+-- +-mono-≤ : ∀ (m n p q : ℕ)
+--   → m ≤ n
+--   → p ≤ q
+--     -------------
+--   → (m + p) ≤ (n + q)
+
+-- +-mono-≤ : ∀ (m n p q : ℕ)
+--   → p ≤ q
+--   → (n * p) ≤ (n * q)
+--     -------------
+--   → (p + (n * p)) ≤ (q + (n * q))
+
   -- p ≤ q → (suc n * p) ≤ (suc n * q)
   -- p ≤ q → (p + n * p) ≤ (q + n * q)
 
@@ -174,3 +186,17 @@ data Trichotomy (m n : ℕ) : Set where
     -------------
   → (m + p) < (n + q)
 +-mono-< m n p q m<n p<q = <-trans (+-monoˡ-< m n p m<n) (+-monoʳ-< n p q p<q)
+
+≤-iff-< : ∀ (m n : ℕ)
+  → suc m ≤ n
+    -------------
+  → m < n
+≤-iff-< zero (suc n) s≤n = z<s
+≤-iff-< (suc m) (suc n) (s≤s s≤n) = s<s (≤-iff-< m n s≤n)
+
+≤-iff-<' : ∀ (m n : ℕ)
+  → m < n
+    -------------
+  → suc m ≤ n
+≤-iff-<' zero (suc n) m<n = s≤s z≤n
+≤-iff-<' (suc m) (suc n) (s<s m<n) = s≤s (≤-iff-<' m n m<n)
