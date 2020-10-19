@@ -116,3 +116,24 @@ data Total (m n : ℕ) : Set where
     -------------
   → (m * p) ≤ (n * q)
 *-mono-≤ m n p q m≤n p≤q = ≤-trans (*-monoˡ-≤ m n p m≤n) (*-monoʳ-≤ n p q p≤q)
+
+infix 4 _<_
+
+data _<_ : ℕ → ℕ → Set where
+
+  z<s : ∀ {n : ℕ}
+      ------------
+    → zero < suc n
+
+  s<s : ∀ {m n : ℕ}
+    → m < n
+      -------------
+    → suc m < suc n
+
+<-trans : ∀ {m n p : ℕ}
+    -----
+    → m < n
+    → n < p
+    → m < p
+<-trans z<s (s<s (n<p)) = z<s
+<-trans (s<s (m<n)) (s<s (n<p)) = s<s (<-trans m<n n<p)
