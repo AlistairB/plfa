@@ -200,3 +200,18 @@ data Trichotomy (m n : ℕ) : Set where
   → suc m ≤ n
 ≤-iff-<' zero (suc n) m<n = s≤s z≤n
 ≤-iff-<' (suc m) (suc n) (s<s m<n) = s≤s (≤-iff-<' m n m<n)
+
+inv-s<s : ∀ {m n : ℕ} → suc m < suc n → m < n
+inv-s<s (s<s m<n) = m<n
+
+m<n-m≤n : ∀ {m n : ℕ} → m < n → m ≤ n
+m<n-m≤n z<s = z≤n
+m<n-m≤n (s<s m<n) = s≤s (m<n-m≤n m<n)
+
+<-trans-revisited : ∀ {m n p : ℕ} → m < n → n < p → m < p
+<-trans-revisited {m} {n} {p} m<n n<p = ≤-iff-< m p (≤-trans pr1 pr2) where
+  pr1 : suc m ≤ n
+  pr1 = ≤-iff-<' m n m<n
+
+  pr2 : n ≤ p
+  pr2 = m<n-m≤n n<p
