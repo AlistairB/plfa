@@ -3,7 +3,7 @@ module part1.Relations where
 import Relation.Binary.PropositionalEquality as Eq
 open Eq using (_≡_; refl; cong; sym)
 open import Data.Nat using (ℕ; zero; suc; _+_; _*_)
-open import Data.Nat.Properties using (+-comm; *-comm; +-identityʳ)
+open import Data.Nat.Properties using (+-comm; *-comm; +-identityʳ; +-suc)
 
 data _≤_ : ℕ → ℕ → Set where
 
@@ -254,3 +254,25 @@ e+e≡e zero     en  =  en
 e+e≡e (suc om) en  =  suc (o+e≡o om en)
 
 o+e≡o (suc em) en  =  suc (e+e≡e em en)
+
+e+o≡o : ∀ {m n : ℕ}
+  → even m
+  → odd n
+    -----------
+  → odd (m + n)
+e+o≡o em (suc en) = {!!}
+
+-- o+o≡e : ∀ {m n : ℕ}
+--   → odd m
+--   → odd n
+--     -----------
+--   → even (m + n)
+-- o+o≡e m (suc en) = suc (o+e≡o m en)
+
+-- o+o≡e : ∀ {m n : ℕ}
+--   → odd m
+--   → odd n
+--     -----------
+--   → even (m + n)
+-- o+o≡e (suc zero) on = on
+-- o+o≡e (suc em) on = suc
