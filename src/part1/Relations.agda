@@ -2,6 +2,7 @@ module part1.Relations where
 
 import Relation.Binary.PropositionalEquality as Eq
 open Eq using (_≡_; refl; cong; sym)
+open Eq.≡-Reasoning using (begin_; _≡⟨⟩_; step-≡; _∎)
 open import Data.Nat using (ℕ; zero; suc; _+_; _*_)
 open import Data.Nat.Properties using (+-comm; *-comm; +-identityʳ; +-suc)
 
@@ -261,6 +262,18 @@ e+o≡o : ∀ {m n : ℕ}
     -----------
   → odd (m + n)
 e+o≡o em (suc en) = {!!}
+  --suc (+-suc (o+e≡o em en))
+
+-- +-even-suc : ∀ (m n : ℕ) → even (m + suc n) ≡ even (suc (m + n))
+-- +-even-suc zero n = refl
+-- +-even-suc (suc om) n =
+--   begin
+--     suc (suc (m + suc n))
+--   ≡⟨⟩
+--     suc (m + suc n)
+--   ≡⟨ cong suc (+-even-suc m n) ⟩
+--     suc (suc m + n)
+--   ∎
 
 -- o+o≡e : ∀ {m n : ℕ}
 --   → odd m
