@@ -442,7 +442,14 @@ _ = refl
 
 -- bin-from-suc : ∀ ( b : Bin ) → from (inc b) ≡ suc (from b)
 -- bin-from-suc ⟨⟩ = refl
--- bin-from-suc (b O) = {!!}
+-- bin-from-suc (b O) =
+--   begin
+--     from (inc (b O))
+--   ≡⟨⟩
+--     from (b I)
+--   ≡⟨⟩
+--     suc (from (b O))
+--   ∎
 -- bin-from-suc (b I) = {!!}
 
 -- bin-to-from : ∀ ( b : Bin ) → to (from b) ≡ b

@@ -271,3 +271,10 @@ e+o≡o : ∀ {m n : ℕ}
   → odd (m + n)
 e+o≡o zero on = on
 e+o≡o (suc om) on = suc (o+o≡e om on)
+
+-- data One : Bin → Set where
+
+--   one : ∀ (b : Bin)
+--     → odd n
+--       ------------
+--     → even (suc n)
