@@ -256,51 +256,18 @@ e+e≡e (suc om) en  =  suc (o+e≡o om en)
 
 o+e≡o (suc em) en  =  suc (e+e≡e em en)
 
-even-inj : ∀ {m n : ℕ} → even m ≡ even n → m ≡ n
-even-inj hmm = {!!}
+o+o≡e : ∀ {m n : ℕ}
+  → odd m
+  → odd n
+    -----------
+  → even (m + n)
+o+o≡e (suc zero) on = suc on
+o+o≡e (suc (suc om)) on = suc (suc (o+o≡e om on))
 
-
--- e+o≡o : ∀ {m n : ℕ}
---   → even m
---   → odd n
---     -----------
---   → odd (m + n)
--- e+o≡o em (suc en) = {!!}
---   --suc (+-suc (o+e≡o em en))
-
-
-
--- +-monoˡ-≤ : ∀ (m n p : ℕ)
---   → m ≤ n
---     -------------
---   → (m + p) ≤ (n + p)
--- +-monoˡ-≤ m n p m≤n rewrite +-comm m p | +-comm n p  = +-monoʳ-≤ p m n m≤n
-
-
-
--- +-even-suc : ∀ (m n : ℕ) → even (m + suc n) ≡ even (suc (m + n))
--- +-even-suc zero n = refl
--- +-even-suc (suc m) n =
---   begin
---     suc (suc (m + suc n))
---   ≡⟨⟩
---     suc (m + suc n)
---   ≡⟨ cong suc (+-even-suc m n) ⟩
---     suc (suc m + n)
---   ∎
-
--- o+o≡e : ∀ {m n : ℕ}
---   → odd m
---   → odd n
---     -----------
---   → even (m + n)
--- o+o≡e (suc zero) on = suc on
--- o+o≡e (suc em) on = suc (o+e≡o om en)
-
--- o+o≡e : ∀ {m n : ℕ}
---   → odd m
---   → odd n
---     -----------
---   → even (m + n)
--- o+o≡e (suc zero) on = on
--- o+o≡e (suc em) on = suc
+e+o≡o : ∀ {m n : ℕ}
+  → even m
+  → odd n
+    -----------
+  → odd (m + n)
+e+o≡o zero on = on
+e+o≡o (suc om) on = suc (o+o≡e om on)
