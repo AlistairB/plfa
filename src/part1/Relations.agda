@@ -272,9 +272,21 @@ e+o≡o : ∀ {m n : ℕ}
 e+o≡o zero on = on
 e+o≡o (suc om) on = suc (o+o≡e om on)
 
--- data One : Bin → Set where
+data Bin : Set where
+  ⟨⟩ : Bin
+  _O : Bin → Bin
+  _I : Bin → Bin
 
---   one : ∀ (b : Bin)
---     → odd n
---       ------------
---     → even (suc n)
+-- https://www.reddit.com/r/agda/comments/hrvk07/plfa_quantifiers_help_with_binisomorphism/
+
+data One : Bin → Set where
+
+  one : One (⟨⟩ I)
+  oneO : ∀ {b} → One b → One (b O)
+  oneI : ∀ {b} → One b → One (b I)
+
+-- data Can : Bin → Set where
+
+--   one : One (⟨⟩ I)
+--   oneO : ∀ {b} → One b → One (b O)
+--   oneI : ∀ {b} → One b → One (b I)
