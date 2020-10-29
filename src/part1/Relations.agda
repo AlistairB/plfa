@@ -285,8 +285,6 @@ data One : Bin → Set where
   oneO : ∀ {b} → One b → One (b O)
   oneI : ∀ {b} → One b → One (b I)
 
--- data Can : Bin → Set where
+data Can : Bin → Set where
 
---   one : One (⟨⟩ I)
---   oneO : ∀ {b} → One b → One (b O)
---   oneI : ∀ {b} → One b → One (b I)
+  can : ∀ {b} → One b → Can b
