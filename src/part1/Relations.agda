@@ -293,7 +293,9 @@ data One : Bin → Set where
 
 data Can : Bin → Set where
 
-  can : ∀ {b} → One b → Can b
+  canZero : Can (⟨⟩ O)
+
+  canNonZero : ∀ {b} → One b → Can b
 
 canInc : ∀ {b : Bin}
     Can b
