@@ -277,6 +277,12 @@ data Bin : Set where
   _O : Bin → Bin
   _I : Bin → Bin
 
+inc : Bin → Bin
+inc ⟨⟩ = ⟨⟩ I
+inc (⟨⟩ I) = ⟨⟩ I O
+inc (b O) = b I
+inc (b I) = (inc b) O
+
 -- https://www.reddit.com/r/agda/comments/hrvk07/plfa_quantifiers_help_with_binisomorphism/
 
 data One : Bin → Set where
@@ -288,3 +294,9 @@ data One : Bin → Set where
 data Can : Bin → Set where
 
   can : ∀ {b} → One b → Can b
+
+canInc : ∀ {b : Bin}
+    Can b
+    ------------
+  → Can (inc b)
+canInc canB = {!!}
