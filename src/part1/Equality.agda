@@ -185,11 +185,34 @@ open ≤-Reasoning
   → (n + p) ≤ (n + q)
 +-monoʳ-≤ zero    p q p≤q  =
   begin≤
-    (p ≤ q)
+    zero + p
   ≤⟨⟩
-    (zero + p) ≤ (zero + q)
+    p
+  ≤⟨ p≤q ⟩
+    q
+  ≤⟨⟩
+    zero + q
   ≤∎
-+-monoʳ-≤ (suc n) p q p≤q  = {!!}
++-monoʳ-≤ (suc n) p q p≤q  =
+  begin≤
+    suc n + p
+  ≤⟨⟩
+    suc (n + p)
+  ≤⟨ cong suc (+-monoʳ-≤ n p q p≤q) ⟩
+    suc (n + q)
+  ≤⟨⟩
+    suc n + q
+  ≤∎
+
+  -- begin≤
+  --   zero + p
+  -- ≤⟨⟩
+  --   p
+  -- ≤⟨ p≤q ⟩
+  --   q
+  -- ≤⟨⟩
+  --   zero + q
+  -- ≤∎
 
 -- p≤q
 -- s≤s (+-monoʳ-≤ n p q p≤q)
