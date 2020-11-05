@@ -297,8 +297,8 @@ data Can : Bin → Set where
 
   canNonZero : ∀ {b} → One b → Can b
 
-canInc : ∀ {b : Bin}
-    Can b
-    ------------
-  → Can (inc b)
-canInc canB = {!!}
+-- canInc : ∀ {b : Bin}
+--     Can b
+--     ------------
+--   → Can (inc b)
+-- canInc canB = {!!}
