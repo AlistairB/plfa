@@ -178,6 +178,19 @@ module ≤-Reasoning where
 
 open ≤-Reasoning
 
+cong≤ : ∀ (f : ℕ → ℕ) {m n : ℕ}
+  → m ≤ n
+    ---------
+  → f m ≤ f n
+cong≤ f z≤n = {!!}
+cong≤ f (s≤s m≤n) = {!!}
+
+-- cong≤ : ∀ (f : ℕ → ℕ) {m n : ℕ}
+--   → m ≤ n
+--     ---------
+--   → f m ≤ f n
+-- cong≤ f {zero} {n} m≤n = f zero ≤ f n
+-- cong≤ f {suc m} {n} m≤n = {!!}
 
 +-monoʳ-≤ : ∀ (n p q : ℕ)
   → p ≤ q
@@ -198,7 +211,7 @@ open ≤-Reasoning
     suc n + p
   ≤⟨⟩
     suc (n + p)
-  ≤⟨ cong suc (+-monoʳ-≤ n p q p≤q) ⟩
+  ≤⟨ cong≤ suc (+-monoʳ-≤ n p q p≤q) ⟩
     suc (n + q)
   ≤⟨⟩
     suc n + q
