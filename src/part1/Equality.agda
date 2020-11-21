@@ -203,3 +203,38 @@ open ≤-Reasoning
   ≤⟨⟩
     suc n + q
   ≤∎
+
+≡implies≤ : ∀ {m n : ℕ}
+  → m ≡ n
+    -------------
+  → m ≤ n
+≡implies≤ refl = ≤-refl
+
++-monoˡ-≤ : ∀ (m n p : ℕ)
+  → m ≤ n
+    -------------
+  → (m + p) ≤ (n + p)
++-monoˡ-≤ m n p m≤n =
+  begin≤
+    m + p
+  ≤⟨ ≡implies≤ (+-comm m p) ⟩
+    p + m
+  ≤⟨ +-monoʳ-≤ p m n m≤n ⟩
+    p + n
+  ≤⟨ ≡implies≤ (+-comm p n) ⟩
+    n + p
+  ≤∎
+
++-mono-≤ : ∀ (m n p q : ℕ)
+  → m ≤ n
+  → p ≤ q
+    -------------
+  → (m + p) ≤ (n + q)
++-mono-≤ m n p q m≤n p≤q =
+  begin≤
+    m + p
+  ≤⟨ +-monoˡ-≤ m n p m≤n ⟩
+    n + p
+  ≤⟨ +-monoʳ-≤ n p q p≤q ⟩
+    n + q
+  ≤∎
