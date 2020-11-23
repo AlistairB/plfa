@@ -212,4 +212,9 @@ open ≲-Reasoning
   → A ≃ B
     -----
   → A ≲ B
-≃-implies-≲ A≃B = {!!}
+≃-implies-≲ A≃B =
+  record
+    { to       = to A≃B
+    ; from     = from A≃B
+    ; from∘to  = {!!}
+     }
