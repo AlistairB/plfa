@@ -216,5 +216,5 @@ open ≲-Reasoning
   record
     { to       = to A≃B
     ; from     = from A≃B
-    ; from∘to  = {!!}
-     }
+    ; from∘to  = from∘to A≃B
+    }
