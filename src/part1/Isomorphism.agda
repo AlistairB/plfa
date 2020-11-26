@@ -253,3 +253,5 @@ open _⇔_
     { to      = to B⇔C ∘ to A⇔B
     ; from    = from A⇔B ∘ from B⇔C
     }
+
+-- Next https://plfa.github.io/Isomorphism/#exercise-bin-embedding-stretch
