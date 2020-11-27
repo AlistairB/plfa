@@ -3,7 +3,7 @@ module part1.Isomorphism where
 import Relation.Binary.PropositionalEquality as Eq
 open Eq using (_≡_; refl; cong; cong-app)
 open Eq.≡-Reasoning
-open import Data.Nat using (ℕ; zero; suc; _+_)
+open import Data.Nat using (ℕ; zero; suc; _+_; _*_)
 open import Data.Nat.Properties using (+-comm)
 
 _∘_ : ∀ {A B C : Set} → (B → C) → (A → B) → (A → C)
@@ -255,3 +255,39 @@ open _⇔_
     }
 
 -- Next https://plfa.github.io/Isomorphism/#exercise-bin-embedding-stretch
+
+data Bin : Set where
+  ⟨⟩ : Bin
+  _O : Bin → Bin
+  _I : Bin → Bin
+
+inc : Bin → Bin
+inc ⟨⟩ = ⟨⟩ I
+inc (⟨⟩ I) = ⟨⟩ I O
+inc (b O) = b I
+inc (b I) = (inc b) O
+
+bto : ℕ → Bin
+bto zero = ⟨⟩ O
+bto (suc n) = inc (bto n)
+
+bfrom : Bin → ℕ
+bfrom ⟨⟩     = zero
+bfrom (⟨⟩ O) = zero
+bfrom (⟨⟩ I) = suc zero
+bfrom (b O)  = 2 * (bfrom b)
+bfrom (b I)  = 1 + (2 * (bfrom b))
+
+bfrom-bto : ∀ (n : ℕ) → bfrom (bto n) ≡ n
+bfrom-bto zero = refl
+bfrom-bto (suc n) = {!!}
+
+bin-enmbed-ℕ : ℕ ≲ Bin
+bin-enmbed-ℕ =
+  record
+    { to       = bto
+    ; from     = bfrom
+    ; from∘to  = bfrom-bto
+    }
+
+-- from∘to : ∀ (x : A) → from (to x) ≡ x
