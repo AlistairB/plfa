@@ -278,16 +278,16 @@ bfrom (⟨⟩ I) = suc zero
 bfrom (b O)  = 2 * (bfrom b)
 bfrom (b I)  = 1 + (2 * (bfrom b))
 
-bfrom-bto : ∀ (n : ℕ) → bfrom (bto n) ≡ n
-bfrom-bto zero = refl
-bfrom-bto (suc n) = {!!}
+-- bfrom-bto : ∀ (n : ℕ) → bfrom (bto n) ≡ n
+-- bfrom-bto zero = refl
+-- bfrom-bto (suc n) = {!!}
 
-bin-enmbed-ℕ : ℕ ≲ Bin
-bin-enmbed-ℕ =
-  record
-    { to       = bto
-    ; from     = bfrom
-    ; from∘to  = bfrom-bto
-    }
+-- bin-enmbed-ℕ : ℕ ≲ Bin
+-- bin-enmbed-ℕ =
+--   record
+--     { to       = bto
+--     ; from     = bfrom
+--     ; from∘to  = bfrom-bto
+--     }
 
 -- from∘to : ∀ (x : A) → from (to x) ≡ x
