@@ -69,3 +69,88 @@ open _×′_
     ; from∘to = λ A⇔B → refl
     ; to∘from = λ{ ⟨ A→B , B→A ⟩ → refl }
     }
+
+data ⊤ : Set where
+
+  tt :
+    --
+    ⊤
+
+η-⊤ : ∀ (w : ⊤) → tt ≡ w
+η-⊤ tt = refl
+
+record ⊤′ : Set where
+  constructor tt′
+
+η-⊤′ : ∀ (w : ⊤′) → tt′ ≡ w
+η-⊤′ w = refl
+
+truth′ : ⊤′
+truth′ = tt′
+
+⊤-count : ⊤ → ℕ
+⊤-count tt = 1
+
+⊤-identityˡ : ∀ {A : Set} → ⊤ × A ≃ A
+⊤-identityˡ =
+  record
+    { to      = λ{ ⟨ tt , x ⟩ → x }
+    ; from    = λ{ x → ⟨ tt , x ⟩ }
+    ; from∘to = λ{ ⟨ tt , x ⟩ → refl }
+    ; to∘from = λ{ x → refl }
+    }
+
+⊤-identityʳ : ∀ {A : Set} → (A × ⊤) ≃ A
+⊤-identityʳ {A} =
+  ≃-begin
+    (A × ⊤)
+  ≃⟨ ×-comm ⟩
+    (⊤ × A)
+  ≃⟨ ⊤-identityˡ ⟩
+    A
+  ≃-∎
+
+data _⊎_ (A B : Set) : Set where
+
+  inj₁ :
+      A
+      -----
+    → A ⊎ B
+
+  inj₂ :
+      B
+      -----
+    → A ⊎ B
+
+infixr 1 _⊎_
+
+case-⊎ : ∀ {A B C : Set}
+  → (A → C)
+  → (B → C)
+  → A ⊎ B
+    -----------
+  → C
+case-⊎ f g (inj₁ x) = f x
+case-⊎ f g (inj₂ y) = g y
+
+η-⊎ : ∀ {A B : Set} (w : A ⊎ B) → case-⊎ inj₁ inj₂ w ≡ w
+η-⊎ (inj₁ x) = refl
+η-⊎ (inj₂ y) = refl
+
+uniq-⊎ : ∀ {A B C : Set} (h : A ⊎ B → C) (w : A ⊎ B) →
+  case-⊎ (h ∘ inj₁) (h ∘ inj₂) w ≡ h w
+uniq-⊎ h (inj₁ x) = refl
+uniq-⊎ h (inj₂ y) = refl
+
+⊎-comm : ∀ {A B : Set} → A ⊎ B ≃ B ⊎ A
+⊎-comm =
+  record
+    { to       = case-⊎ inj₂ inj₁
+    ; from     = case-⊎ inj₂ inj₁
+    ; from∘to  = λ{ (inj₁ x) → refl
+                  ; (inj₂ y) → refl
+                  }
+    ; to∘from  = λ{ (inj₂ x) → refl
+                  ; (inj₁ y) → refl
+                  }
+    }
