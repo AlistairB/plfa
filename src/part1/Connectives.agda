@@ -172,3 +172,40 @@ uniq-⊎ h (inj₂ y) = refl
                   ; (inj₂ (inj₂ x)) → refl
                   }
     }
+
+data ⊥ : Set where
+  -- no clauses!
+
+⊥-elim : ∀ {A : Set}
+  → ⊥
+    --
+  → A
+⊥-elim ()
+
+uniq-⊥ : ∀ {C : Set} (h : ⊥ → C) (w : ⊥) → ⊥-elim w ≡ h w
+uniq-⊥ h ()
+
+⊥-count : ⊥ → ℕ
+⊥-count ()
+
+id : ∀ {A : Set} → A → A
+id a = a
+
+⊥-identityˡ : ∀ {A : Set} → ⊥ ⊎ A ≃ A
+⊥-identityˡ =
+  record
+    { to      = case-⊎ ⊥-elim id
+    ; from    = inj₂
+    ; from∘to = λ{(inj₂ x) → refl }
+    ; to∘from = λ x → refl
+    }
+
+⊥-identityʳ : ∀ {A : Set} → A ⊎ ⊥ ≃ A
+⊥-identityʳ {A} =
+  ≃-begin
+    (A ⊎ ⊥)
+  ≃⟨ ⊎-comm ⟩
+    (⊥ ⊎ A)
+  ≃⟨ ⊥-identityˡ ⟩
+    A
+  ≃-∎
