@@ -61,11 +61,11 @@ open _×′_
     ; to∘from = λ{ ⟨ x , ⟨ y , z ⟩ ⟩ → refl }
     }
 
-⇔≃× : ∀ {A B : Set} → (A ⇔ B) ≃ A × B
+⇔≃× : ∀ {A B : Set} → (A ⇔ B) ≃ (A → B) × (B → A)
 ⇔≃× =
   record
-    { to      = {!!}
-    ; from    = {!!}
-    ; from∘to = {!!}
-    ; to∘from = {!!}
+    { to      = λ A⇔B → ⟨ _⇔_.to A⇔B , _⇔_.from A⇔B ⟩
+    ; from    = λ{ ⟨ A→B , B→A ⟩ → record { to = A→B; from = B→A } }
+    ; from∘to = λ A⇔B → refl
+    ; to∘from = λ{ ⟨ A→B , B→A ⟩ → refl }
     }
