@@ -150,7 +150,25 @@ uniq-⊎ h (inj₂ y) = refl
     ; from∘to  = λ{ (inj₁ x) → refl
                   ; (inj₂ y) → refl
                   }
-    ; to∘from  = λ{ (inj₂ x) → refl
-                  ; (inj₁ y) → refl
+    ; to∘from  = λ{ (inj₁ x) → refl
+                  ; (inj₂ y) → refl
+                  }
+    }
+
+⊎-assoc : ∀ {A B C : Set} → (A ⊎ B) ⊎ C ≃ A ⊎ (B ⊎ C)
+⊎-assoc =
+  record
+    { to       = case-⊎ (case-⊎ inj₁ (inj₂ ∘ inj₁)) (inj₂ ∘ inj₂)
+                  -- λ{ (inj₁ A⊎B) → case-⊎ inj₁ (inj₂ ∘ inj₁) A⊎B
+                  -- ; (inj₂ C)   → inj₂ (inj₂ C)
+                  -- }
+    ; from     = case-⊎ (inj₁ ∘ inj₁) (case-⊎ (inj₁ ∘ inj₂) inj₂)
+    ; from∘to  = λ{ (inj₁ (inj₁ x)) → refl
+                  ; (inj₁ (inj₂ x)) → refl
+                  ; (inj₂ x) → refl
+                  }
+    ; to∘from  = λ{(inj₁ x) → refl
+                  ; (inj₂ (inj₁ x)) → refl
+                  ; (inj₂ (inj₂ x)) → refl
                   }
     }
