@@ -42,3 +42,24 @@ contraposition : ∀ {A B : Set}
     -----------
   → (¬ B → ¬ A)
 contraposition f ¬y x = ¬y (f x)
+
+_≢_ : ∀ {A : Set} → A → A → Set
+x ≢ y  =  ¬ (x ≡ y)
+
+_ : 1 ≢ 2
+_ = λ()
+
+peano : ∀ {m : ℕ} → zero ≢ suc m
+peano = λ()
+
+id : ⊥ → ⊥
+id x = x
+
+id′ : ⊥ → ⊥
+id′ ()
+
+id≡id′ : id ≡ id′
+id≡id′ = extensionality (λ())
+
+assimilation : ∀ {A : Set} (¬x ¬x′ : ¬ A) → ¬x ≡ ¬x′
+assimilation ¬x ¬x′ = extensionality (λ x → ⊥-elim (¬x x))
