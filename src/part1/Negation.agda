@@ -6,6 +6,7 @@ open import Data.Empty using (⊥; ⊥-elim)
 open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Data.Product using (_×_)
 open import part1.Isomorphism using (_≃_; extensionality)
+open import part1.Relations using (_<_; Trichotomy)
 
 ¬_ : Set → Set
 ¬ A = A → ⊥
@@ -63,3 +64,28 @@ id≡id′ = extensionality (λ())
 
 assimilation : ∀ {A : Set} (¬x ¬x′ : ¬ A) → ¬x ≡ ¬x′
 assimilation ¬x ¬x′ = extensionality (λ x → ⊥-elim (¬x x))
+
+open _<_
+
+-- <-irreflexive : ∀ {n : ℕ} → ¬ (n < n)
+-- <-irreflexive = λ (s<s x) → <-irreflexive x
+
+<-irreflexive : ∀ {n : ℕ} → ¬ (n < n)
+<-irreflexive (s<s x) = <-irreflexive x
+
+-- data Trichotomy (m n : ℕ) : Set where
+
+--   forward :
+--       m < n
+--       ---------
+--     → Trichotomy m n
+
+--   flipped :
+--       n < m
+--       ---------
+--     → Trichotomy m n
+
+--   equal :
+--       n ≡ m
+--       ---------
+--     → Trichotomy m n
