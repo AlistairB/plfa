@@ -103,3 +103,6 @@ proveTri (suc m) (suc n) with proveTri m n
 ... | forward (m<n , ¬n<m , ¬m≡n ) = forward ( s<s m<n , (λ{ (s<s n<m) → ¬n<m n<m }) , (λ x → ¬m≡n (suc-≡ x)))
 ... | flipped (n<m , ¬m<n , ¬n≡m) = flipped ( s<s n<m , (λ{ (s<s m<n) → ¬m<n m<n }) , (λ x → ¬n≡m (suc-≡ x)))
 ... | equal (m≡n , ¬m<n , ¬n<m) = equal ( cong suc m≡n , (λ{ (s<s m<n) → ¬m<n m<n }) , (λ{ (s<s n<m) → ¬n<m n<m }) )
+
+deMorgan : ∀ {A B : Set} → ¬ (A ⊎ B) ≃ (¬ A) × (¬ B)
+deMorgan = {!!}
