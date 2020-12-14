@@ -118,3 +118,9 @@ deMorgan = →-distrib-⊎
   λ{ (inj₁ ¬a) → λ x → ¬a (proj₁ x)
    ; (inj₂ ¬b) → λ x → ¬b (proj₂ x)
    }
+
+postulate
+  em : ∀ {A : Set} → A ⊎ ¬ A
+
+em-irrefutable : ∀ {A : Set} → ¬ ¬ (A ⊎ ¬ A)
+em-irrefutable k = k (inj₂ λ{ x → k (inj₁ x) })
