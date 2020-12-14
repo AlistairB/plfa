@@ -7,31 +7,33 @@ open import Data.Nat using (ℕ)
 open import Function using (_∘_)
 open import part1.Isomorphism using (_≃_; _≲_; extensionality; _⇔_)
 open part1.Isomorphism.≃-Reasoning
+open import Data.Sum using (_⊎_; inj₁; inj₂)
+open import Data.Product using (_×_; proj₁; proj₂) renaming (_,_ to ⟨_,_⟩)
 
-data _×_ (A B : Set) : Set where
+-- data _×_ (A B : Set) : Set where
 
-  ⟨_,_⟩ :
-      A
-    → B
-      -----
-    → A × B
+--   ⟨_,_⟩ :
+--       A
+--     → B
+--       -----
+--     → A × B
 
-proj₁ : ∀ {A B : Set}
-  → A × B
-    -----
-  → A
-proj₁ ⟨ x , y ⟩ = x
+-- proj₁ : ∀ {A B : Set}
+--   → A × B
+--     -----
+--   → A
+-- proj₁ ⟨ x , y ⟩ = x
 
-proj₂ : ∀ {A B : Set}
-  → A × B
-    -----
-  → B
-proj₂ ⟨ x , y ⟩ = y
+-- proj₂ : ∀ {A B : Set}
+--   → A × B
+--     -----
+--   → B
+-- proj₂ ⟨ x , y ⟩ = y
 
 η-× : ∀ {A B : Set} (w : A × B) → ⟨ proj₁ w , proj₂ w ⟩ ≡ w
 η-× ⟨ x , y ⟩ = refl
 
-infixr 2 _×_
+-- infixr 2 _×_
 
 record _×′_ (A B : Set) : Set where
   constructor ⟨_,_⟩′
@@ -110,19 +112,19 @@ truth′ = tt′
     A
   ≃-∎
 
-data _⊎_ (A B : Set) : Set where
+-- data _⊎_ (A B : Set) : Set where
 
-  inj₁ :
-      A
-      -----
-    → A ⊎ B
+--   inj₁ :
+--       A
+--       -----
+--     → A ⊎ B
 
-  inj₂ :
-      B
-      -----
-    → A ⊎ B
+--   inj₂ :
+--       B
+--       -----
+--     → A ⊎ B
 
-infixr 1 _⊎_
+-- infixr 1 _⊎_
 
 case-⊎ : ∀ {A B C : Set}
   → (A → C)
@@ -232,9 +234,9 @@ currying =
 →-distrib-⊎ : ∀ {A B C : Set} → (A ⊎ B → C) ≃ ((A → C) × (B → C))
 →-distrib-⊎ =
   record
-    { to      = λ{ f → ⟨ f ∘ inj₁ , f ∘ inj₂ ⟩ }
-    ; from    = λ{ ⟨ g , h ⟩ → λ{ (inj₁ x) → g x ; (inj₂ y) → h y } }
-    ; from∘to = λ{ f → extensionality λ{ (inj₁ x) → refl ; (inj₂ y) → refl } }
+    { to = λ f → ⟨ f ∘ inj₁ , f ∘ inj₂ ⟩
+    ; from = λ{ ⟨ g , h ⟩ → λ{ (inj₁ x) → g x ; (inj₂ y) → h y } }
+    ; from∘to = λ f → extensionality λ{ (inj₁ x) → refl ; (inj₂ x) → refl}
     ; to∘from = λ{ ⟨ g , h ⟩ → refl }
     }
 

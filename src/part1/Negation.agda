@@ -5,8 +5,9 @@ open import Data.Nat using (ℕ; zero; suc; _∸_)
 open import Data.Empty using (⊥; ⊥-elim)
 open import Data.Sum using (_⊎_; inj₁; inj₂)
 open import Data.Product using (_×_; proj₁; proj₂; _,_)
-open import part1.Isomorphism using (_≃_; extensionality)
+open import part1.Isomorphism using (_≃_; _≲_; extensionality; _⇔_)
 open import part1.Relations using (_<_; Trichotomy)
+open import part1.Connectives using (→-distrib-⊎)
 
 ¬_ : Set → Set
 ¬ A = A → ⊥
@@ -105,4 +106,4 @@ proveTri (suc m) (suc n) with proveTri m n
 ... | equal (m≡n , ¬m<n , ¬n<m) = equal ( cong suc m≡n , (λ{ (s<s m<n) → ¬m<n m<n }) , (λ{ (s<s n<m) → ¬n<m n<m }) )
 
 deMorgan : ∀ {A B : Set} → ¬ (A ⊎ B) ≃ (¬ A) × (¬ B)
-deMorgan = {!!}
+deMorgan = →-distrib-⊎
