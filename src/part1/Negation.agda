@@ -107,3 +107,14 @@ proveTri (suc m) (suc n) with proveTri m n
 
 deMorgan : ∀ {A B : Set} → ¬ (A ⊎ B) ≃ (¬ A) × (¬ B)
 deMorgan = →-distrib-⊎
+
+-- I don't think this is possible because we only know that A AND B is impossible.
+-- Individually A or B may be possible
+-- reDeMorgan : ∀ {A B : Set} → ¬ (A × B) ≃ (¬ A) ⊎ (¬ B)
+-- reDeMorgan = {!!}
+
+¬⊎-implies-¬× : ∀ {A B : Set} → (¬ A) ⊎ (¬ B) → ¬ (A × B)
+¬⊎-implies-¬× =
+  λ{ (inj₁ ¬a) → λ x → ¬a (proj₁ x)
+   ; (inj₂ ¬b) → λ x → ¬b (proj₂ x)
+   }
