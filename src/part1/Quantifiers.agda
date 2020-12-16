@@ -65,5 +65,5 @@ triIndexed {B} =
     ; to∘from = λ y → refl
     }
 
--- η-× : ∀ {A B : Set} (w : A × B) → ⟨ proj₁ w , proj₂ w ⟩ ≡ w
--- η-× ⟨ x , y ⟩ = refl
+data Σ (A : Set) (B : A → Set) : Set where
+  ⟨_,_⟩ : (x : A) → B x → Σ A B
