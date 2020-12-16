@@ -67,3 +67,7 @@ triIndexed {B} =
 
 data Σ (A : Set) (B : A → Set) : Set where
   ⟨_,_⟩ : (x : A) → B x → Σ A B
+
+Σ-syntax = Σ
+infix 2 Σ-syntax
+syntax Σ-syntax A (λ x → B) = Σ[ x ∈ A ] B
